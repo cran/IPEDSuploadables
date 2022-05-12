@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Set up your data for IPEDS Fall Enrollment processing</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+<style type="text/css">
+.lightable-minimal {
+border-collapse: separate;
+border-spacing: 16px 1px;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-minimal td {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal th {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal thead tr:last-child th {
+border-bottom: 2px solid #00000050;
+empty-cells: hide;
+}
+.lightable-minimal tbody tr:first-child td {
+padding-top: 0.5em;
+}
+.lightable-minimal.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic {
+border-top: 0.16em solid #111111;
+border-bottom: 0.16em solid #111111;
+width: 100%;
+margin-bottom: 10px;
+margin: 10px 5px;
+}
+.lightable-classic tfoot tr td {
+border: 0;
+}
+.lightable-classic tfoot tr:first-child td {
+border-top: 0.14em solid #111111;
+}
+.lightable-classic caption {
+color: #222222;
+}
+.lightable-classic td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic thead tr:last-child th {
+border-bottom: 0.10em solid #111111;
+}
+.lightable-classic.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic-2 {
+border-top: 3px double #111111;
+border-bottom: 3px double #111111;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-classic-2 tfoot tr td {
+border: 0;
+}
+.lightable-classic-2 tfoot tr:first-child td {
+border-top: 3px double #111111;
+}
+.lightable-classic-2 caption {
+color: #222222;
+}
+.lightable-classic-2 td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic-2 th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic-2 tbody tr:last-child td {
+border-bottom: 3px double #111111;
+}
+.lightable-classic-2 thead tr:last-child th {
+border-bottom: 1px solid #111111;
+}
+.lightable-classic-2.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #EEE;
+border-collapse: collapse;
+margin-bottom: 10px;
+}
+.lightable-material tfoot tr td {
+border: 0;
+}
+.lightable-material tfoot tr:first-child td {
+border-top: 1px solid #EEE;
+}
+.lightable-material th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+}
+.lightable-material td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+border-top: 1px solid #eeeeee;
+}
+.lightable-material.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #ddd;
+}
+.lightable-material-dark {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #FFFFFF12;
+border-collapse: collapse;
+margin-bottom: 10px;
+background-color: #363640;
+}
+.lightable-material-dark tfoot tr td {
+border: 0;
+}
+.lightable-material-dark tfoot tr:first-child td {
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF60;
+}
+.lightable-material-dark td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF;
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark.lightable-hover tbody tr:hover {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material-dark.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #FFFFFF12;
+}
+.lightable-paper {
+width: 100%;
+margin-bottom: 10px;
+color: #444;
+}
+.lightable-paper tfoot tr td {
+border: 0;
+}
+.lightable-paper tfoot tr:first-child td {
+border-top: 1px solid #00000020;
+}
+.lightable-paper thead tr:last-child th {
+color: #666;
+vertical-align: bottom;
+border-bottom: 1px solid #00000020;
+line-height: 1.15em;
+padding: 10px 5px;
+}
+.lightable-paper td {
+vertical-align: middle;
+border-bottom: 1px solid #00000010;
+line-height: 1.15em;
+padding: 7px 5px;
+}
+.lightable-paper.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-paper.lightable-striped tbody tr:nth-child(even) {
+background-color: #00000008;
+}
+.lightable-paper.lightable-striped tbody td {
+border: 0;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Set up your data for IPEDS Fall Enrollment processing</h1>
+
+
+
+<div id="the-produce_ef1_report-function-requires-2-separate-dataframes-one-with-row-level-students-and-one-with-pre-aggregated-retention-counts." class="section level2">
+<h2>The <code>produce_ef1_report</code> function requires 2 separate dataframes, one with row-level students and one with pre-aggregated retention counts.</h2>
+</div>
+<div id="the-dataframes-must-follow-the-format-described-below" class="section level2">
+<h2><em>The dataframes must follow the format described below</em></h2>
+<div id="student-data-requirements" class="section level3">
+<h3>Student data requirements</h3>
+<blockquote>
+<ul>
+<li>One row per person</li>
+<li>One IPEDS Unitid per file</li>
+<li>Columns with values and types as described below in any order (additional columns are allowed)</li>
+<li>Double-starred column names (**) are only required in years when IPEDS collects that information. In off-years, you can omit the columns or enter any placeholder value.</li>
+</ul>
+</blockquote>
+<p>Column names can use any capitalization method you like. Do <strong>NOT</strong> include (**) in the column names.</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Column Name
+</th>
+<th style="text-align:left;">
+Column Type
+</th>
+<th style="text-align:left;">
+Acceptable Value - Definition
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Unitid
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+(relevant unitid; xxxxxx)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+StudentId
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Character or Numeric
+</td>
+<td style="text-align:left;">
+(any unique identifier for each student)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+StudentLevel
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Character
+</td>
+<td style="text-align:left;">
+Undergraduate<br>Graduate
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsFullTime
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not full time (Part time)<br>1 - Full Time
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsFirstTime
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not First Time<br>1 - First Time
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsTransfer
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not a transfer student<br>1 - Transfer student
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsRecentGrad**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Did not graduate from high school in the previous 12 months<br>1 - Graduated from high school in the previous 12 months
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsDegreeCertSeeking
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not degree/certificate seeking<br>1 - Degree/Certificate seeking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DistanceEd
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Enrolled in no distance ed classes<br>1 - Enrolled in some distance ed classes<br>2 - Enrolled entirely in distance ed classes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+1 - Male<br>2 - Female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RaceEthnicity
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+1 - Nonresident alien<br>2 - Hispanic/Latino<br>3 - American Indian or Alaska Native<br>4 - Asian<br>5 - Black or African American<br>6 - Native Hawaiian or Other Pacific Islander<br>7 - White<br>8 - Two or more races<br>9 - Race and ethnicity unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Age**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+Any number
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AdmitState**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+1-98: FIPS code for student state of residence at the time of admission; can see list of options on the IPEDS Fall Enrollment blank submission form. <br>Note: Only required for first-time undergraduates
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OnlineState
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+1-98: FIPS code for student state of residence when enrolled entirely in online classes; can see list of options on the IPEDS Fall Enrollment blank submission form. <br>Note: Only required for fully-online students
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UnitidState
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+1-98: The FIPS code for your institution
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip130000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip140000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip260000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip270000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip400000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip520000**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip220101**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip510401**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cip511201**
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="retention-data-requirements" class="section level3">
+<h3>Retention data requirements</h3>
+<blockquote>
+<ul>
+<li>One row for full-time counts, one row for part-time counts</li>
+<li>One IPEDS Unitid per file</li>
+<li>Columns with values and types as described below in any order (additional columns are allowed)</li>
+</ul>
+</blockquote>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Column Name
+</th>
+<th style="text-align:left;">
+Column Type
+</th>
+<th style="text-align:left;">
+Acceptable Value - Definition
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Unitid
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+(relevant unitid; xxxxxx)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IsFullTime
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+0 - Not full time (Part time)<br>1 - Full Time
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OrigCohort
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+Number of first-time students in the prior-year cohort
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Exclusions
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+Number of first-time students to be excluded (removed) from the prior-year cohort
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Inclusions
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+Number of first-time students to be included (added) to the prior-year cohort
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+StillEnrolled
+</td>
+<td style="text-align:left;width: 8em; font-style: italic;">
+Numeric
+</td>
+<td style="text-align:left;">
+Number of prior-year first-time students who are still enrolled in the current year (their second year)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="student-faculty-ratio" class="section level3">
+<h3>Student-faculty ratio</h3>
+<p>This information will be collected via pop-up box. Type the correct number for your institution’s ratio when prompted.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

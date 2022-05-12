@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>How to use this package to support your IPEDS reporting</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">How to use this package to support your IPEDS reporting</h1>
+
+
+
+<p>A few things to note:</p>
+<ul>
+<li>To ensure you have the most current version of this package, we suggest you check for an updated version and reinstall (as needed) during each collection window.</li>
+<li>To use this package, you’ll need to prepare your data as indicated in vignettes. The vignettes can all be viewed through the <a href="https://alisonlanski.github.io/IPEDSuploadables/">package website</a>.<br />
+</li>
+<li>IPEDS upload files must be 100% of the requested information for a particular report. In other words, if a report has parts A, B, and C, you must upload all parts in a single file or the upload will fail.<br />
+</li>
+<li>To create an upload-ready file based on your own data preparation, see <a href="howto_use_autoformat.html">How to produce other key-value uploads</a></li>
+</ul>
+<div id="step-0-installload-the-package" class="section level2">
+<h2>Step 0: Install/Load the package</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install option 1</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#install option 2 (relies on the remotes package)</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#load the packages</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(IPEDSuploadables)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; This version of IPEDSuploadables is for the 2021-2022 reporting cycle.</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; If you are in a later cycle or want to capture any bug fixes,</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; please update the package.</span></span></code></pre></div>
+</div>
+<div id="step-1-prep-your-institutional-data" class="section level2">
+<h2>Step 1: Prep your institutional data</h2>
+<p>The package requires specific column names and values to work correctly. Each IPEDS report has a vignette that spells out requirements and also has sample data you can examine.</p>
+<p><strong>To create files for non-supported reports, see <a href="howto_use_autoformat.html">How to produce other key-value uploads</a></strong></p>
+<table>
+<colgroup>
+<col width="32%"></col>
+<col width="32%"></col>
+<col width="35%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">IPEDS Report</th>
+<th align="left">Required Dataframes</th>
+<th align="left">Sample Data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">12 Month Enrollment</td>
+<td align="left"><a href="setup_for_12monthenrollment.html">students &amp; instructional activity</a></td>
+<td align="left">e1d_student, e1d_instr</td>
+</tr>
+<tr class="even">
+<td align="left">Completions</td>
+<td align="left"><a href="setup_for_completions.html">students &amp; extra cips</a></td>
+<td align="left">com_students, com_cips</td>
+</tr>
+<tr class="odd">
+<td align="left">Fall Enrollment</td>
+<td align="left"><a href="setup_for_fallenrollment.html">students &amp; retention aggregate</a></td>
+<td align="left">ef1_students, ef1_retention</td>
+</tr>
+<tr class="even">
+<td align="left">Graduation Rates</td>
+<td align="left"><a href="setup_for_gr.html">students</a></td>
+<td align="left">gr_students</td>
+</tr>
+<tr class="odd">
+<td align="left">Graduation Rates 200</td>
+<td align="left"><a href="setup_for_gr200.html">students</a></td>
+<td align="left">gr200_students</td>
+</tr>
+<tr class="even">
+<td align="left">Human Resources</td>
+<td align="left"><a href="setup_for_hr.html">staff</a></td>
+<td align="left">hr_staff</td>
+</tr>
+<tr class="odd">
+<td align="left">Outcome Measures</td>
+<td align="left"><a href="setup_for_om.html">students</a></td>
+<td align="left">om_students</td>
+</tr>
+</tbody>
+</table>
+<p>You can call the sample data as desired to explore it</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#dataframe of student information for 12 month enrollment</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>(e1d_student)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   Unitid StudentId IsFullTime IsFirstTime IsTransfer IsDegreeCertSeeking</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; 1 999999       100          1           1          0                   1</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 2 999999       101          1           1          0                   0</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 3 999999       102          1           1          0                   1</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; 4 999999       103          1           1          0                   0</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 5 999999       104          1           1          0                   1</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 6 999999       105          1           1          0                   0</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;    StudentLevel RaceEthnicity Sex DistanceEdAll DistanceEdSome</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; 1 Undergraduate             1   1             0              1</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 2 Undergraduate             1   2             0              1</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 3 Undergraduate             1   2             0              1</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 4 Undergraduate             1   1             0              1</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; 5 Undergraduate             1   1             0              1</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; 6 Undergraduate             1   2             0              0</span></span></code></pre></div>
+</div>
+<div id="step-2-read-in-your-data-and-produce-your-ipeds-report" class="section level2">
+<h2>Step 2: Read in your data and produce your IPEDS report</h2>
+<p>Each IPEDS report has a single function which will produce all required sub-parts in a single file for upload.</p>
+<ul>
+<li>Some reports require 2 dataframes<br />
+</li>
+<li>Use the popup box to choose the folder where the report should be saved.<br />
+</li>
+<li>The upload file will be saved as a txt file with a date-stamp. Rerunning the script on the same day to the same location will overwrite your original file.</li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#full export using sample data</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">produce_e1d_report</span>(<span class="dt">df =</span> e1d_student, <span class="dt">hrs =</span> e1d_instr, <span class="dt">part =</span> <span class="st">&quot;ALL&quot;</span>)</span></code></pre></div>
+<p>A message will be display the location of your file when it has been processed.</p>
+<div id="notes-for-specific-reports" class="section level3">
+<h3>Notes for specific reports</h3>
+<p>Completions</p>
+<ul>
+<li>The extra cips dataframe is optional and can be left empty if your school has student completions in all cip/award level combinations previously reported</li>
+</ul>
+<p>Fall Enrollment</p>
+<ul>
+<li><p>Your student-faculty ratio number is collected via pop-up box. Type a whole number when prompted.</p></li>
+<li><p>The main function auto-detects the IPEDS submission year and adjusts the sections of cip-based enrollment, student age, and student residence state appropriately to be in or out of your report. If you would like to report data in optional years, change the include_optional flag to TRUE.</p></li>
+</ul>
+<p>Human Resources</p>
+<ul>
+<li>The script requires one dataframe with all current employees and new hires. If someone is counted in both sections of the report, include them only once in your institutional data with the appropriate flags.</li>
+</ul>
+</div>
+</div>
+<div id="step-3-upload-your-ipeds-report" class="section level2">
+<h2>Step 3: Upload your IPEDS report</h2>
+<ol style="list-style-type: decimal">
+<li><p>Navigate to the IPEDS submission portal and log in.</p></li>
+<li><p>Select the appropriate report (for example: “12 Month Enrollment”), select “key-value pair”, then browse to your .txt file and upload.</p></li>
+<li><p>Click through the survey screens to review results and verify submission accuracy</p></li>
+<li><p>Continue your standard process to check edits, enter metadata, lock, and submit the survey.</p></li>
+</ol>
+</div>
+<div id="troubleshooting" class="section level2">
+<h2>Troubleshooting</h2>
+<div id="you-need-to-make-a-data-correction-after-uploading" class="section level4">
+<h4>You need to make a data correction after uploading</h4>
+<p>Update your base data, rerun the package function, and re-upload to IPEDS. You can upload as many times as you want to any particular survey.<br />
+Your keyholder may be able to edit directly in the website, but this method is not recommended since it is not reproducible.</p>
+<p>If you verify that your data and dataframe(s) are correct, but IPEDS still shows incorrect aggregation, please contact the package authors by adding a GitHub issue or by emailing. We can provide the quickest help if you share an example with sample data, expected output, and actual output.</p>
+</div>
+<div id="ipeds-rejects-your-upload-file-or-accepts-the-file-but-provides-an-error-message" class="section level4">
+<h4>IPEDS rejects your upload file or accepts the file but provides an error message</h4>
+<p>Common issues include:</p>
+<ul>
+<li>Your data has disallowed values</li>
+<li>Your upload is missing a sub-part of the report</li>
+<li>IPEDS is expecting particular information based on previous years of reporting which is inconsistent or missing</li>
+</ul>
+<p><em>For example, IPEDS wants all previous CIP/Award Level combinations reported on the current upload file. If you have no students in those categories, add any flagged CIP/Award combinations to your extra_cips dataframe, rerun, and reupload to remove this error message</em></p>
+</div>
+<div id="how-the-package-can-help-you-troubleshoot" class="section level4">
+<h4>How the package can help you troubleshoot</h4>
+<p>A few functions have built-in data quality checks which will alert you of disallowed values. We are working to add more automated checks.</p>
+<p>If you want to examine a single report sub-part in depth, you can create a separate text file with only those values.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#if you only want to look at 12 month enrollment part B</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">produce_e1d_report</span>(e1d_instr, <span class="dt">part =</span> <span class="st">&quot;B&quot;</span>)</span></code></pre></div>
+<p>You can also produce a csv version of the part’s text file, for more readable output (still using IPEDS upload-required column names and values)</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#text files make my eyes bleed! let&#39;s use a csv</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">produce_e1d_report</span>(<span class="dt">hrs =</span> e1d_instr, <span class="dt">part =</span> <span class="st">&quot;B&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;readable&quot;</span>)</span></code></pre></div>
+</div>
+<div id="ipeds-has-changed-a-surveys-requirements-but-you-need-to-rerun-an-old-report" class="section level4">
+<h4>IPEDS has changed a survey’s requirements, but you need to rerun an old report</h4>
+<p>At the end of every IPEDS collection cycle, that year’s package code will be saved into a branch on GitHub. To use an old version, install the package from the branch.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#install, picking an acceptable year range</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="dt">repo =</span> <span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;reporting_year_2020-2021&quot;</span>)</span></code></pre></div>
+<p>When you have finished running your code, reinstall the current version of the package by removing the “ref” argument.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
