@@ -1,7 +1,7 @@
 Package: IPEDSuploadables
 Title: Transforms Institutional Data into Text Files for IPEDS
         Automated Import/Upload
-Version: 2.4.5
+Version: 2.5.5
 Authors@R: c(
             person(given = "Alison", family = "Lanski", 
             role = c("aut", "cre"),
@@ -34,9 +34,9 @@ VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Config/testthat/edition: 2
 NeedsCompilation: no
-Packaged: 2022-05-10 19:42:23 UTC; alanski
+Packaged: 2022-10-03 18:35:02 UTC; alanski
 Author: Alison Lanski [aut, cre],
   Shiloh Fling [aut]
 Maintainer: Alison Lanski <alanski@nd.edu>
 Repository: CRAN
-Date/Publication: 2022-05-12 08:00:02 UTC
+Date/Publication: 2022-10-03 18:50:02 UTC

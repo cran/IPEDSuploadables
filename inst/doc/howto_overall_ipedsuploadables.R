@@ -6,10 +6,16 @@ knitr::opts_chunk$set(
 
 
 ## ----setup, eval=FALSE--------------------------------------------------------
-#  #install option 1
+#  #official install from CRAN
+#  install.packages("IPEDSuploadables")
+#  
+#  #development install from the github repo
+#  #use this if you want to pull in changes before they reach cran or need to use other code branches
+#  
+#  #development install option 1
 #  remotes::install_github("AlisonLanski/IPEDSuploadables")
 #  
-#  #install option 2 (relies on the remotes package)
+#  #development install option 2
 #  devtools::install_github("AlisonLanski/IPEDSuploadables")
 
 ## ----load, eval = TRUE--------------------------------------------------------
@@ -23,6 +29,10 @@ head(e1d_student)
 ## ----produce_report, eval=FALSE-----------------------------------------------
 #  #full export using sample data
 #  produce_e1d_report(df = e1d_student, hrs = e1d_instr, part = "ALL")
+
+## ----gender_example, eval = FALSE---------------------------------------------
+#  #able to report undergraduate "another gender" but NOT able to report graduate "another gender"
+#  produce_com_report(df = com_students, extracips = com_cips, ggender = FALSE)
 
 ## ----produce_subreport, eval = FALSE------------------------------------------
 #  #if you only want to look at 12 month enrollment part B

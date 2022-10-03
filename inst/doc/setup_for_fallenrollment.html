@@ -14,19 +14,16 @@
 
 <title>Set up your data for IPEDS Fall Enrollment processing</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
@@ -462,12 +459,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Set up your data for IPEDS Fall Enrollment processing</h1>
+<h1 class="title toc-ignore">Set up your data for IPEDS Fall Enrollment
+processing</h1>
 
 
 
 <div id="the-produce_ef1_report-function-requires-2-separate-dataframes-one-with-row-level-students-and-one-with-pre-aggregated-retention-counts." class="section level2">
-<h2>The <code>produce_ef1_report</code> function requires 2 separate dataframes, one with row-level students and one with pre-aggregated retention counts.</h2>
+<h2>The <code>produce_ef1_report</code> function requires 2 separate
+dataframes, one with row-level students and one with pre-aggregated
+retention counts.</h2>
 </div>
 <div id="the-dataframes-must-follow-the-format-described-below" class="section level2">
 <h2><em>The dataframes must follow the format described below</em></h2>
@@ -477,11 +477,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <ul>
 <li>One row per person</li>
 <li>One IPEDS Unitid per file</li>
-<li>Columns with values and types as described below in any order (additional columns are allowed)</li>
-<li>Double-starred column names (**) are only required in years when IPEDS collects that information. In off-years, you can omit the columns or enter any placeholder value.</li>
+<li>Columns with values and types as described below in any order
+(additional columns are allowed)</li>
+<li>Double-starred column names (**) are only required in years when
+IPEDS collects that information. In off-years, you can omit the columns
+or enter any placeholder value.</li>
 </ul>
 </blockquote>
-<p>Column names can use any capitalization method you like. Do <strong>NOT</strong> include (**) in the column names.</p>
+<p>Column names can use any capitalization method you like. Do
+<strong>NOT</strong> include (**) in the column names.</p>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -571,7 +575,8 @@ IsRecentGrad**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Did not graduate from high school in the previous 12 months<br>1 - Graduated from high school in the previous 12 months
+0 - Did not graduate from high school in the previous 12 months<br>1 -
+Graduated from high school in the previous 12 months
 </td>
 </tr>
 <tr>
@@ -593,7 +598,8 @@ DistanceEd
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Enrolled in no distance ed classes<br>1 - Enrolled in some distance ed classes<br>2 - Enrolled entirely in distance ed classes
+0 - Enrolled in no distance ed classes<br>1 - Enrolled in some distance
+ed classes<br>2 - Enrolled entirely in distance ed classes
 </td>
 </tr>
 <tr>
@@ -615,7 +621,10 @@ RaceEthnicity
 Numeric
 </td>
 <td style="text-align:left;">
-1 - Nonresident alien<br>2 - Hispanic/Latino<br>3 - American Indian or Alaska Native<br>4 - Asian<br>5 - Black or African American<br>6 - Native Hawaiian or Other Pacific Islander<br>7 - White<br>8 - Two or more races<br>9 - Race and ethnicity unknown
+1 - Nonresident alien<br>2 - Hispanic/Latino<br>3 - American Indian or
+Alaska Native<br>4 - Asian<br>5 - Black or African American<br>6 -
+Native Hawaiian or Other Pacific Islander<br>7 - White<br>8 - Two or
+more races<br>9 - Race and ethnicity unknown
 </td>
 </tr>
 <tr>
@@ -637,7 +646,9 @@ AdmitState**
 Numeric
 </td>
 <td style="text-align:left;">
-1-98: FIPS code for student state of residence at the time of admission; can see list of options on the IPEDS Fall Enrollment blank submission form. <br>Note: Only required for first-time undergraduates
+1-98: FIPS code for student state of residence at the time of admission;
+can see list of options on the IPEDS Fall Enrollment blank submission
+form. <br>Note: Only required for first-time undergraduates
 </td>
 </tr>
 <tr>
@@ -648,7 +659,9 @@ OnlineState
 Numeric
 </td>
 <td style="text-align:left;">
-1-98: FIPS code for student state of residence when enrolled entirely in online classes; can see list of options on the IPEDS Fall Enrollment blank submission form. <br>Note: Only required for fully-online students
+1-98: FIPS code for student state of residence when enrolled entirely in
+online classes; can see list of options on the IPEDS Fall Enrollment
+blank submission form. <br>Note: Only required for fully-online students
 </td>
 </tr>
 <tr>
@@ -670,7 +683,8 @@ Cip130000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -681,7 +695,8 @@ Cip140000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -692,7 +707,8 @@ Cip260000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -703,7 +719,8 @@ Cip270000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -714,7 +731,8 @@ Cip400000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -725,7 +743,8 @@ Cip520000**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -736,7 +755,8 @@ Cip220101**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -747,7 +767,8 @@ Cip510401**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 <tr>
@@ -758,7 +779,8 @@ Cip511201**
 Numeric
 </td>
 <td style="text-align:left;">
-0 - Not Applicable<br>1 - Student has declared a major under this 6-digit cip code
+0 - Not Applicable<br>1 - Student has declared a major under this
+6-digit cip code
 </td>
 </tr>
 </tbody>
@@ -770,7 +792,8 @@ Numeric
 <ul>
 <li>One row for full-time counts, one row for part-time counts</li>
 <li>One IPEDS Unitid per file</li>
-<li>Columns with values and types as described below in any order (additional columns are allowed)</li>
+<li>Columns with values and types as described below in any order
+(additional columns are allowed)</li>
 </ul>
 </blockquote>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
@@ -829,7 +852,8 @@ Exclusions
 Numeric
 </td>
 <td style="text-align:left;">
-Number of first-time students to be excluded (removed) from the prior-year cohort
+Number of first-time students to be excluded (removed) from the
+prior-year cohort
 </td>
 </tr>
 <tr>
@@ -840,7 +864,8 @@ Inclusions
 Numeric
 </td>
 <td style="text-align:left;">
-Number of first-time students to be included (added) to the prior-year cohort
+Number of first-time students to be included (added) to the prior-year
+cohort
 </td>
 </tr>
 <tr>
@@ -851,7 +876,8 @@ StillEnrolled
 Numeric
 </td>
 <td style="text-align:left;">
-Number of prior-year first-time students who are still enrolled in the current year (their second year)
+Number of prior-year first-time students who are still enrolled in the
+current year (their second year)
 </td>
 </tr>
 </tbody>
@@ -859,7 +885,8 @@ Number of prior-year first-time students who are still enrolled in the current y
 </div>
 <div id="student-faculty-ratio" class="section level3">
 <h3>Student-faculty ratio</h3>
-<p>This information will be collected via pop-up box. Type the correct number for your institution’s ratio when prompted.</p>
+<p>This information will be collected via pop-up box. Type the correct
+number for your institution’s ratio when prompted.</p>
 </div>
 </div>
 

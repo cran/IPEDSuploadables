@@ -14,19 +14,16 @@
 
 <title>How to use this package to support your IPEDS reporting</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
@@ -51,19 +48,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -83,7 +80,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -333,41 +330,62 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">How to use this package to support your IPEDS reporting</h1>
+<h1 class="title toc-ignore">How to use this package to support your
+IPEDS reporting</h1>
 
 
 
 <p>A few things to note:</p>
 <ul>
-<li>To ensure you have the most current version of this package, we suggest you check for an updated version and reinstall (as needed) during each collection window.</li>
-<li>To use this package, you’ll need to prepare your data as indicated in vignettes. The vignettes can all be viewed through the <a href="https://alisonlanski.github.io/IPEDSuploadables/">package website</a>.<br />
+<li>To ensure you have the most current version of this package, we
+suggest you check for an updated version and reinstall (as needed)
+during each collection window.</li>
+<li>To use this package, you’ll need to prepare your data as indicated
+in vignettes. The vignettes can all be viewed through the <a href="https://alisonlanski.github.io/IPEDSuploadables/">package
+website</a>.<br />
 </li>
-<li>IPEDS upload files must be 100% of the requested information for a particular report. In other words, if a report has parts A, B, and C, you must upload all parts in a single file or the upload will fail.<br />
+<li>IPEDS upload files must be 100% of the requested information for a
+particular report. In other words, if a report has parts A, B, and C,
+you must upload all parts in a single file or the upload will
+fail.<br />
 </li>
-<li>To create an upload-ready file based on your own data preparation, see <a href="howto_use_autoformat.html">How to produce other key-value uploads</a></li>
+<li>To create an upload-ready file based on your own data preparation,
+see <a href="howto_use_autoformat.html">How to produce other key-value
+uploads</a></li>
 </ul>
 <div id="step-0-installload-the-package" class="section level2">
 <h2>Step 0: Install/Load the package</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install option 1</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#install option 2 (relies on the remotes package)</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#load the packages</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(IPEDSuploadables)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; This version of IPEDSuploadables is for the 2021-2022 reporting cycle.</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; If you are in a later cycle or want to capture any bug fixes,</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; please update the package.</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#official install from CRAN</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;IPEDSuploadables&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#development install from the github repo</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#use this if you want to pull in changes before they reach cran or need to use other code branches</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#development install option 1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#development install option 2</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the packages</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(IPEDSuploadables)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; This version of IPEDSuploadables has been updated for </span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; FALL collection of the 2022-2023 reporting cycle.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Winter and Spring updates coming soon.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; If you are in a later cycle or want to capture any bug fixes,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; please update the package.</span></span></code></pre></div>
 </div>
 <div id="step-1-prep-your-institutional-data" class="section level2">
 <h2>Step 1: Prep your institutional data</h2>
-<p>The package requires specific column names and values to work correctly. Each IPEDS report has a vignette that spells out requirements and also has sample data you can examine.</p>
-<p><strong>To create files for non-supported reports, see <a href="howto_use_autoformat.html">How to produce other key-value uploads</a></strong></p>
+<p>The package requires specific column names and values to work
+correctly. Each IPEDS report has a vignette that spells out requirements
+and also has sample data you can examine.</p>
+<p><strong>To create files for non-supported reports, see <a href="howto_use_autoformat.html">How to produce other key-value
+uploads</a></strong></p>
 <table>
 <colgroup>
-<col width="32%"></col>
-<col width="32%"></col>
-<col width="35%"></col>
+<col width="32%" />
+<col width="32%" />
+<col width="35%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -379,17 +397,20 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <tbody>
 <tr class="odd">
 <td align="left">12 Month Enrollment</td>
-<td align="left"><a href="setup_for_12monthenrollment.html">students &amp; instructional activity</a></td>
+<td align="left"><a href="setup_for_12monthenrollment.html">students
+&amp; instructional activity</a></td>
 <td align="left">e1d_student, e1d_instr</td>
 </tr>
 <tr class="even">
 <td align="left">Completions</td>
-<td align="left"><a href="setup_for_completions.html">students &amp; extra cips</a></td>
+<td align="left"><a href="setup_for_completions.html">students &amp;
+extra cips</a></td>
 <td align="left">com_students, com_cips</td>
 </tr>
 <tr class="odd">
 <td align="left">Fall Enrollment</td>
-<td align="left"><a href="setup_for_fallenrollment.html">students &amp; retention aggregate</a></td>
+<td align="left"><a href="setup_for_fallenrollment.html">students &amp;
+retention aggregate</a></td>
 <td align="left">ef1_students, ef1_retention</td>
 </tr>
 <tr class="even">
@@ -415,51 +436,82 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </tbody>
 </table>
 <p>You can call the sample data as desired to explore it</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#dataframe of student information for 12 month enrollment</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>(e1d_student)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   Unitid StudentId IsFullTime IsFirstTime IsTransfer IsDegreeCertSeeking</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; 1 999999       100          1           1          0                   1</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 2 999999       101          1           1          0                   0</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 3 999999       102          1           1          0                   1</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; 4 999999       103          1           1          0                   0</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 5 999999       104          1           1          0                   1</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 6 999999       105          1           1          0                   0</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;    StudentLevel RaceEthnicity Sex DistanceEdAll DistanceEdSome</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; 1 Undergraduate             1   1             0              1</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 2 Undergraduate             1   2             0              1</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 3 Undergraduate             1   2             0              1</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 4 Undergraduate             1   1             0              1</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; 5 Undergraduate             1   1             0              1</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; 6 Undergraduate             1   2             0              0</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dataframe of student information for 12 month enrollment</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(e1d_student)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Unitid StudentId IsFullTime IsFirstTime IsTransfer IsDegreeCertSeeking</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 999999       100          1           1          0                   1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 999999       101          1           1          0                   0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 999999       102          1           1          0                   1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 999999       103          1           1          0                   0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 999999       104          1           1          0                   1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 999999       105          1           1          0                   0</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    StudentLevel RaceEthnicity Sex DistanceEdAll DistanceEdSome GenderDetail</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Undergraduate             1   1             0              1            1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Undergraduate             1   2             0              1            2</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Undergraduate             1   2             0              1            2</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Undergraduate             1   1             0              1            1</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Undergraduate             1   1             0              1            1</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Undergraduate             1   2             0              0            2</span></span></code></pre></div>
 </div>
 <div id="step-2-read-in-your-data-and-produce-your-ipeds-report" class="section level2">
 <h2>Step 2: Read in your data and produce your IPEDS report</h2>
-<p>Each IPEDS report has a single function which will produce all required sub-parts in a single file for upload.</p>
+<p>Each IPEDS report has a single function which will produce all
+required sub-parts in a single file for upload.</p>
 <ul>
 <li>Some reports require 2 dataframes<br />
 </li>
-<li>Use the popup box to choose the folder where the report should be saved.<br />
+<li>Use the popup box to choose the folder where the report should be
+saved.<br />
 </li>
-<li>The upload file will be saved as a txt file with a date-stamp. Rerunning the script on the same day to the same location will overwrite your original file.</li>
+<li>The upload file will be saved as a txt file with a date-stamp.
+Rerunning the script on the same day to the same location will overwrite
+your original file.</li>
 </ul>
 <p>Example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#full export using sample data</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">produce_e1d_report</span>(<span class="dt">df =</span> e1d_student, <span class="dt">hrs =</span> e1d_instr, <span class="dt">part =</span> <span class="st">&quot;ALL&quot;</span>)</span></code></pre></div>
-<p>A message will be display the location of your file when it has been processed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#full export using sample data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">produce_e1d_report</span>(<span class="at">df =</span> e1d_student, <span class="at">hrs =</span> e1d_instr, <span class="at">part =</span> <span class="st">&quot;ALL&quot;</span>)</span></code></pre></div>
+<p>A message will be display the location of your file when it has been
+processed.</p>
+<div id="note-about-new-gender-collection-for-2022-2023-reporting-cycle" class="section level3">
+<h3>Note about new gender collection for 2022-2023 reporting cycle</h3>
+<p>Scripts are set to assume that you ARE able to report on “another
+gender” in this reporting cycle. This applies to Completions and 12
+Month Enrollment.</p>
+<p>If you are <strong>NOT</strong> able to collect/report on students of
+“another gender” this cycle</p>
+<ul>
+<li>Set ugender = FALSE (for undergraduates) in the produce
+function</li>
+<li>Set ggender = FALSE (for graduates) in the produce function</li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#able to report undergraduate &quot;another gender&quot; but NOT able to report graduate &quot;another gender&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">produce_com_report</span>(<span class="at">df =</span> com_students, <span class="at">extracips =</span> com_cips, <span class="at">ggender =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
 <div id="notes-for-specific-reports" class="section level3">
 <h3>Notes for specific reports</h3>
 <p>Completions</p>
 <ul>
-<li>The extra cips dataframe is optional and can be left empty if your school has student completions in all cip/award level combinations previously reported</li>
+<li>The extra cips dataframe is optional and can be left empty if your
+school has student completions in all cip/award level combinations
+previously reported</li>
 </ul>
 <p>Fall Enrollment</p>
 <ul>
-<li><p>Your student-faculty ratio number is collected via pop-up box. Type a whole number when prompted.</p></li>
-<li><p>The main function auto-detects the IPEDS submission year and adjusts the sections of cip-based enrollment, student age, and student residence state appropriately to be in or out of your report. If you would like to report data in optional years, change the include_optional flag to TRUE.</p></li>
+<li><p>Your student-faculty ratio number is collected via pop-up box.
+Type a whole number when prompted.</p></li>
+<li><p>The main function auto-detects the IPEDS submission year and
+adjusts the sections of cip-based enrollment, student age, and student
+residence state appropriately to be in or out of your report. If you
+would like to report data in optional years, change the include_optional
+flag to TRUE.</p></li>
 </ul>
 <p>Human Resources</p>
 <ul>
-<li>The script requires one dataframe with all current employees and new hires. If someone is counted in both sections of the report, include them only once in your institutional data with the appropriate flags.</li>
+<li>The script requires one dataframe with all current employees and new
+hires. If someone is counted in both sections of the report, include
+them only once in your institutional data with the appropriate
+flags.</li>
 </ul>
 </div>
 </div>
@@ -467,47 +519,73 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Step 3: Upload your IPEDS report</h2>
 <ol style="list-style-type: decimal">
 <li><p>Navigate to the IPEDS submission portal and log in.</p></li>
-<li><p>Select the appropriate report (for example: “12 Month Enrollment”), select “key-value pair”, then browse to your .txt file and upload.</p></li>
-<li><p>Click through the survey screens to review results and verify submission accuracy</p></li>
-<li><p>Continue your standard process to check edits, enter metadata, lock, and submit the survey.</p></li>
+<li><p>Select the appropriate report (for example: “12 Month
+Enrollment”), select “key-value pair”, then browse to your .txt file and
+upload.</p></li>
+<li><p>Click through the survey screens to review results and verify
+submission accuracy</p></li>
+<li><p>Continue your standard process to check edits, enter metadata,
+lock, and submit the survey.</p></li>
 </ol>
 </div>
 <div id="troubleshooting" class="section level2">
 <h2>Troubleshooting</h2>
 <div id="you-need-to-make-a-data-correction-after-uploading" class="section level4">
 <h4>You need to make a data correction after uploading</h4>
-<p>Update your base data, rerun the package function, and re-upload to IPEDS. You can upload as many times as you want to any particular survey.<br />
-Your keyholder may be able to edit directly in the website, but this method is not recommended since it is not reproducible.</p>
-<p>If you verify that your data and dataframe(s) are correct, but IPEDS still shows incorrect aggregation, please contact the package authors by adding a GitHub issue or by emailing. We can provide the quickest help if you share an example with sample data, expected output, and actual output.</p>
+<p>Update your base data, rerun the package function, and re-upload to
+IPEDS. You can upload as many times as you want to any particular
+survey.<br />
+Your keyholder may be able to edit directly in the website, but this
+method is not recommended since it is not reproducible.</p>
+<p>If you verify that your data and dataframe(s) are correct, but IPEDS
+still shows incorrect aggregation, please contact the package authors by
+adding a GitHub issue or by emailing. We can provide the quickest help
+if you share an example with sample data, expected output, and actual
+output.</p>
 </div>
 <div id="ipeds-rejects-your-upload-file-or-accepts-the-file-but-provides-an-error-message" class="section level4">
-<h4>IPEDS rejects your upload file or accepts the file but provides an error message</h4>
+<h4>IPEDS rejects your upload file or accepts the file but provides an
+error message</h4>
 <p>Common issues include:</p>
 <ul>
 <li>Your data has disallowed values</li>
 <li>Your upload is missing a sub-part of the report</li>
-<li>IPEDS is expecting particular information based on previous years of reporting which is inconsistent or missing</li>
+<li>IPEDS is expecting particular information based on previous years of
+reporting which is inconsistent or missing</li>
 </ul>
-<p><em>For example, IPEDS wants all previous CIP/Award Level combinations reported on the current upload file. If you have no students in those categories, add any flagged CIP/Award combinations to your extra_cips dataframe, rerun, and reupload to remove this error message</em></p>
+<p><em>For example, IPEDS wants all previous CIP/Award Level
+combinations reported on the current upload file. If you have no
+students in those categories, add any flagged CIP/Award combinations to
+your extra_cips dataframe, rerun, and reupload to remove this error
+message</em></p>
 </div>
 <div id="how-the-package-can-help-you-troubleshoot" class="section level4">
 <h4>How the package can help you troubleshoot</h4>
-<p>A few functions have built-in data quality checks which will alert you of disallowed values. We are working to add more automated checks.</p>
-<p>If you want to examine a single report sub-part in depth, you can create a separate text file with only those values.</p>
+<p>A few functions have built-in data quality checks which will alert
+you of disallowed values. We are working to add more automated
+checks.</p>
+<p>If you want to examine a single report sub-part in depth, you can
+create a separate text file with only those values.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#if you only want to look at 12 month enrollment part B</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">produce_e1d_report</span>(e1d_instr, <span class="dt">part =</span> <span class="st">&quot;B&quot;</span>)</span></code></pre></div>
-<p>You can also produce a csv version of the part’s text file, for more readable output (still using IPEDS upload-required column names and values)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if you only want to look at 12 month enrollment part B</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">produce_e1d_report</span>(e1d_instr, <span class="at">part =</span> <span class="st">&quot;B&quot;</span>)</span></code></pre></div>
+<p>You can also produce a csv version of the part’s text file, for more
+readable output (still using IPEDS upload-required column names and
+values)</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#text files make my eyes bleed! let&#39;s use a csv</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">produce_e1d_report</span>(<span class="dt">hrs =</span> e1d_instr, <span class="dt">part =</span> <span class="st">&quot;B&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;readable&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#text files make my eyes bleed! let&#39;s use a csv</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">produce_e1d_report</span>(<span class="at">hrs =</span> e1d_instr, <span class="at">part =</span> <span class="st">&quot;B&quot;</span>, <span class="at">format =</span> <span class="st">&quot;readable&quot;</span>)</span></code></pre></div>
 </div>
 <div id="ipeds-has-changed-a-surveys-requirements-but-you-need-to-rerun-an-old-report" class="section level4">
-<h4>IPEDS has changed a survey’s requirements, but you need to rerun an old report</h4>
-<p>At the end of every IPEDS collection cycle, that year’s package code will be saved into a branch on GitHub. To use an old version, install the package from the branch.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#install, picking an acceptable year range</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="dt">repo =</span> <span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;reporting_year_2020-2021&quot;</span>)</span></code></pre></div>
-<p>When you have finished running your code, reinstall the current version of the package by removing the “ref” argument.</p>
+<h4>IPEDS has changed a survey’s requirements, but you need to rerun an
+old report</h4>
+<p>At the end of every IPEDS collection cycle, that year’s package code
+will be saved into a branch on GitHub. To use an old version, install
+the package from the branch.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install, picking an acceptable year range</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">&quot;AlisonLanski/IPEDSuploadables&quot;</span>, <span class="at">ref =</span> <span class="st">&quot;reporting_year_2020-2021&quot;</span>)</span></code></pre></div>
+<p>When you have finished running your code, reinstall the current
+version of the package by removing the “ref” argument.</p>
 </div>
 </div>
 

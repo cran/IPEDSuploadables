@@ -14,19 +14,16 @@
 
 <title>How to produce other key-value uploads</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
@@ -51,19 +48,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -83,7 +80,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -345,40 +342,56 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li>Get help converting your data into a key-value pair format</li>
 <li>Get help combining parts with different numbers of columns</li>
 </ul>
-<p>If you want the package to help you with aggregation and (some) recoding, look at the “setup” vignettes for supported uploads</p>
-<p><em>Note: the <code>produce_other_report</code> function can be used to prepare any key-value pair file for an automated submission process (IPEDS or non-IPEDS)</em></p>
+<p>If you want the package to help you with aggregation and (some)
+recoding, look at the “setup” vignettes for supported uploads</p>
+<p><em>Note: the <code>produce_other_report</code> function can be used
+to prepare any key-value pair file for an automated submission process
+(IPEDS or non-IPEDS)</em></p>
 </div>
 <div id="general-process" class="section level2">
 <h2>General Process</h2>
 <ul>
-<li><strong>Download/Open the IPEDS Import Spec</strong> for a particular survey and institution-type on the <a href="https://surveys.nces.ed.gov/ipeds/public/survey-materials/results">IPEDS Survey Materials instructions page</a>. <em>Between reporting cycles, this page may be down: consult <a href="https://nces.ed.gov/ipeds/use-the-data/annual-survey-forms-packages-archived">the archive</a> to see previous specs.</em></li>
-<li><strong>Use the “Key Value Pair File” instructions</strong> to prep your data. This will be the second part of the document; the first part is for fixed-width files.</li>
-<li><strong>Create one dataframe for each survey part</strong> using the exact IPEDS FieldIDs as column names and using only the values described in the table of specs and the additional information in the file’s appendix (scroll down). Follow the same order of columns and parts.</li>
-<li><strong>Use the package function <code>produce_other_report</code></strong> with your files.</li>
+<li><strong>Download/Open the IPEDS Import Spec</strong> for a
+particular survey and institution-type on the <a href="https://surveys.nces.ed.gov/ipeds/public/survey-materials/results">IPEDS
+Survey Materials instructions page</a>. <em>Between reporting cycles,
+this page may be down: consult <a href="https://nces.ed.gov/ipeds/use-the-data/annual-survey-forms-packages-archived">the
+archive</a> to see previous specs.</em></li>
+<li><strong>Use the “Key Value Pair File” instructions</strong> to prep
+your data. This will be the second part of the document; the first part
+is for fixed-width files.</li>
+<li><strong>Create one dataframe for each survey part</strong> using the
+exact IPEDS FieldIDs as column names and using only the values described
+in the table of specs and the additional information in the file’s
+appendix (scroll down). Follow the same order of columns and parts.</li>
+<li><strong>Use the package function
+<code>produce_other_report</code></strong> with your files.</li>
 </ul>
-<p><em>If you need assistance understanding what goes into the upload file, contact IPEDS for advice.</em></p>
+<p><em>If you need assistance understanding what goes into the upload
+file, contact IPEDS for advice.</em></p>
 </div>
 <div id="data-prep-example-admissions" class="section level2">
 <h2>Data prep example: Admissions</h2>
-<p>This provides a start-to-finish example of preparing an admissions submission based on sample data. Always check your results after you upload your txt file to the IPEDS submission portal.</p>
+<p>This provides a start-to-finish example of preparing an admissions
+submission based on sample data. Always check your results after you
+upload your txt file to the IPEDS submission portal.</p>
 <div id="start-with-institutional-data-for-applicants" class="section level3">
 <h3>Start with institutional data for applicants</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#load packages</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(magrittr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(IPEDSuploadables)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#create data</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>adm_dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">StudentId =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>),</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                      <span class="dt">FtPt =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&#39;FT&#39;</span>, <span class="dv">23</span>), <span class="st">&#39;PT&#39;</span>),</span>
-<span id="cb2-4"><a href="#cb2-4"></a>                      <span class="dt">Sex =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>), <span class="dv">12</span>),</span>
-<span id="cb2-5"><a href="#cb2-5"></a>                      <span class="dt">Admit =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>)),</span>
-<span id="cb2-6"><a href="#cb2-6"></a>                      <span class="dt">Enroll =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>)),</span>
-<span id="cb2-7"><a href="#cb2-7"></a>                      <span class="dt">SAT =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-8"><a href="#cb2-8"></a>                      <span class="dt">SAT_V =</span> <span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">760</span>, <span class="dv">800</span>, <span class="dv">800</span>, <span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-9"><a href="#cb2-9"></a>                      <span class="dt">SAT_M =</span> <span class="kw">c</span>(<span class="dv">400</span>, <span class="dv">460</span>, <span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">700</span>, <span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-10"><a href="#cb2-10"></a>                      <span class="dt">ACT =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-11"><a href="#cb2-11"></a>                      <span class="dt">ACT_CMP =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">8</span>), <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">29</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">27</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">25</span>)</span>
-<span id="cb2-12"><a href="#cb2-12"></a>                      )</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(IPEDSuploadables)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adm_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">StudentId =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">FtPt =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&#39;FT&#39;</span>, <span class="dv">23</span>), <span class="st">&#39;PT&#39;</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Sex =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>), <span class="dv">12</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Admit =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Enroll =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>)),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_V =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">760</span>, <span class="dv">800</span>, <span class="dv">800</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_M =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">460</span>, <span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">700</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT_CMP =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">8</span>), <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">29</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">27</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">25</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1188,19 +1201,19 @@ NA
 </div>
 <div id="prepare-part-a---general-questions-not-from-sample-data" class="section level3">
 <h3>Prepare Part A - General Questions (not from sample data)</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#### PART A: General Admissions Criteria</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>partA &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">UNITID =</span> <span class="dv">999999</span>,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>                    <span class="dt">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>                    <span class="dt">PART =</span> <span class="st">&#39;A&#39;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>                    <span class="dt">ADMCON1 =</span> <span class="dv">2</span>, <span class="co">#GPA</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>                    <span class="dt">ADMCON2 =</span> <span class="dv">1</span>, <span class="co">#Rank</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>                    <span class="dt">ADMCON3 =</span> <span class="dv">1</span>, <span class="co">#Record</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>                    <span class="dt">ADMCON4 =</span> <span class="dv">2</span>, <span class="co">#HS grad</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>                    <span class="dt">ADMCON5 =</span> <span class="dv">1</span>, <span class="co">#Recs</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>                    <span class="dt">ADMCON6 =</span> <span class="dv">3</span>, <span class="co">#Portfolio</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>                    <span class="dt">ADMCON7 =</span> <span class="dv">5</span>, <span class="co">#SAT/ACT  #1 or 5 = have to do part C</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>                    <span class="dt">ADMCON8 =</span> <span class="dv">2</span>, <span class="co">#TOEFL</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>                    <span class="dt">ADMCON9 =</span> <span class="dv">3</span>) <span class="co">#other test</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### PART A: General Admissions Criteria</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>partA <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">UNITID =</span> <span class="dv">999999</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PART =</span> <span class="st">&#39;A&#39;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON1 =</span> <span class="dv">2</span>, <span class="co">#GPA</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON2 =</span> <span class="dv">1</span>, <span class="co">#Rank</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON3 =</span> <span class="dv">1</span>, <span class="co">#Record</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON4 =</span> <span class="dv">2</span>, <span class="co">#HS grad</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON5 =</span> <span class="dv">1</span>, <span class="co">#Recs</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON6 =</span> <span class="dv">3</span>, <span class="co">#Portfolio</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON7 =</span> <span class="dv">5</span>, <span class="co">#SAT/ACT  #1 or 5 = have to do part C</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON8 =</span> <span class="dv">2</span>, <span class="co">#TOEFL</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMCON9 =</span> <span class="dv">3</span>) <span class="co">#other test</span></span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1286,23 +1299,23 @@ A
 </div>
 <div id="prepare-part-b---student-counts-from-sample-data" class="section level3">
 <h3>Prepare Part B - Student Counts (from sample data)</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">##### PART B: Admission Counts; FirstTime UG only</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>partB &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">UNITID =</span> <span class="dv">999999</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>                    <span class="dt">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>                    <span class="dt">PART =</span> <span class="st">&#39;B&#39;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>                    <span class="dt">APPLCNM =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;M&#39;</span>, ]),</span>
-<span id="cb4-6"><a href="#cb4-6"></a>                    <span class="dt">APPLCNW =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;F&#39;</span>, ]),</span>
-<span id="cb4-7"><a href="#cb4-7"></a>                    <span class="dt">APPLCNT =</span> <span class="kw">nrow</span>(adm_dat),</span>
-<span id="cb4-8"><a href="#cb4-8"></a>                    <span class="dt">ADMSSNM =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;M&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Admit <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,]),</span>
-<span id="cb4-9"><a href="#cb4-9"></a>                    <span class="dt">ADMSSNW =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;F&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Admit <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,]),</span>
-<span id="cb4-10"><a href="#cb4-10"></a>                    <span class="dt">ADMSSNT =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Admit <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,]),</span>
-<span id="cb4-11"><a href="#cb4-11"></a>                    <span class="dt">ENRLFTM =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;M&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;FT&#39;</span>, ]),</span>
-<span id="cb4-12"><a href="#cb4-12"></a>                    <span class="dt">ENRLFTW =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;F&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;FT&#39;</span>, ]),</span>
-<span id="cb4-13"><a href="#cb4-13"></a>                    <span class="dt">ENRLFTT =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;FT&#39;</span>, ]),</span>
-<span id="cb4-14"><a href="#cb4-14"></a>                    <span class="dt">ENRLPTM =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;M&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;PT&#39;</span>, ]),</span>
-<span id="cb4-15"><a href="#cb4-15"></a>                    <span class="dt">ENRLPTW =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Sex <span class="op">==</span><span class="st"> &#39;F&#39;</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;PT&#39;</span>, ]),</span>
-<span id="cb4-16"><a href="#cb4-16"></a>                    <span class="dt">ENRLPTT =</span> <span class="kw">nrow</span>(adm_dat[adm_dat<span class="op">$</span>Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>adm_dat<span class="op">$</span>FtPt <span class="op">==</span><span class="st"> &#39;PT&#39;</span>, ])</span>
-<span id="cb4-17"><a href="#cb4-17"></a>                    )</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### PART B: Admission Counts; FirstTime UG only</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>partB <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">UNITID =</span> <span class="dv">999999</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PART =</span> <span class="st">&#39;B&#39;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>, ]),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span>, ]),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNT =</span> <span class="fu">nrow</span>(adm_dat),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ])</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                    )</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1406,29 +1419,29 @@ B
 </div>
 <div id="part-c-test-scores-from-sample-data" class="section level3">
 <h3>Part C: Test Scores (from sample data)</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#### PART C: Test Scores</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>adm_enr &lt;-<span class="st"> </span>adm_dat <span class="op">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">filter</span>(Enroll <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#in this example we are not supplying ACT test percentiles by subject</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>partC &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">UNITID =</span> <span class="dv">999999</span>,</span>
-<span id="cb5-8"><a href="#cb5-8"></a>                    <span class="dt">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
-<span id="cb5-9"><a href="#cb5-9"></a>                    <span class="dt">PART =</span> <span class="st">&#39;C&#39;</span>,</span>
-<span id="cb5-10"><a href="#cb5-10"></a>                    <span class="dt">SATINUM =</span> <span class="kw">nrow</span>(adm_enr[adm_enr<span class="op">$</span>SAT <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]),</span>
-<span id="cb5-11"><a href="#cb5-11"></a>                    <span class="dt">SATIPCT =</span> <span class="kw">round</span>(<span class="kw">nrow</span>(adm_enr[adm_enr<span class="op">$</span>SAT <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ])<span class="op">*</span><span class="dv">100</span><span class="op">/</span><span class="kw">nrow</span>(adm_enr), <span class="dv">0</span>),</span>
-<span id="cb5-12"><a href="#cb5-12"></a>                    <span class="dt">ACTNUM =</span> <span class="kw">nrow</span>(adm_enr[adm_enr<span class="op">$</span>ACT <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,]),</span>
-<span id="cb5-13"><a href="#cb5-13"></a>                    <span class="dt">ACTPCT =</span> <span class="kw">round</span>(<span class="kw">nrow</span>(adm_enr[adm_enr<span class="op">$</span>ACT <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,])<span class="op">*</span><span class="dv">100</span><span class="op">/</span><span class="kw">nrow</span>(adm_enr), <span class="dv">0</span>),</span>
-<span id="cb5-14"><a href="#cb5-14"></a>                    <span class="dt">SATVR25 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>SAT_V[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>SAT_V)], <span class="fl">.25</span>),</span>
-<span id="cb5-15"><a href="#cb5-15"></a>                    <span class="dt">SATVR75 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>SAT_V[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>SAT_V)], <span class="fl">.75</span>),</span>
-<span id="cb5-16"><a href="#cb5-16"></a>                    <span class="dt">SATMT25 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>SAT_M[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>SAT_M)], <span class="fl">.25</span>),</span>
-<span id="cb5-17"><a href="#cb5-17"></a>                    <span class="dt">SATMT75 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>SAT_M[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>SAT_M)], <span class="fl">.75</span>),</span>
-<span id="cb5-18"><a href="#cb5-18"></a>                    <span class="dt">ACTCM25 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>ACT_CMP[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>ACT_CMP)], <span class="fl">.25</span>),</span>
-<span id="cb5-19"><a href="#cb5-19"></a>                    <span class="dt">ACTCM75 =</span> <span class="kw">quantile</span>(adm_enr<span class="op">$</span>ACT_CMP[<span class="op">!</span><span class="kw">is.na</span>(adm_enr<span class="op">$</span>ACT_CMP)], <span class="fl">.75</span>),</span>
-<span id="cb5-20"><a href="#cb5-20"></a>                    <span class="dt">ACTEN25 =</span> <span class="dv">-2</span>,</span>
-<span id="cb5-21"><a href="#cb5-21"></a>                    <span class="dt">ACTEN75 =</span> <span class="dv">-2</span>,</span>
-<span id="cb5-22"><a href="#cb5-22"></a>                    <span class="dt">ACTMT25 =</span> <span class="dv">-2</span>,</span>
-<span id="cb5-23"><a href="#cb5-23"></a>                    <span class="dt">ACTMT75 =</span> <span class="dv">-2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### PART C: Test Scores</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>adm_enr <span class="ot">&lt;-</span> adm_dat <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Enroll <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#in this example we are not supplying ACT test percentiles by subject</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>partC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">UNITID =</span> <span class="dv">999999</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PART =</span> <span class="st">&#39;C&#39;</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATINUM =</span> <span class="fu">nrow</span>(adm_enr[adm_enr<span class="sc">$</span>SAT <span class="sc">==</span> <span class="dv">1</span>, ]),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATIPCT =</span> <span class="fu">round</span>(<span class="fu">nrow</span>(adm_enr[adm_enr<span class="sc">$</span>SAT <span class="sc">==</span> <span class="dv">1</span>, ])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span><span class="fu">nrow</span>(adm_enr), <span class="dv">0</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTNUM =</span> <span class="fu">nrow</span>(adm_enr[adm_enr<span class="sc">$</span>ACT <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTPCT =</span> <span class="fu">round</span>(<span class="fu">nrow</span>(adm_enr[adm_enr<span class="sc">$</span>ACT <span class="sc">==</span> <span class="dv">1</span>,])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span><span class="fu">nrow</span>(adm_enr), <span class="dv">0</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATVR25 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_V[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_V)], .<span class="dv">25</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATVR75 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_V[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_V)], .<span class="dv">75</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATMT25 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_M[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_M)], .<span class="dv">25</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATMT75 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_M[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_M)], .<span class="dv">75</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTCM25 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>ACT_CMP[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>ACT_CMP)], .<span class="dv">25</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTCM75 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>ACT_CMP[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>ACT_CMP)], .<span class="dv">75</span>),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTEN25 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTEN75 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT25 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT75 =</span> <span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1543,9 +1556,11 @@ C
 </table>
 </div>
 <div id="use-this-package-to-convert-those-dataframes-into-a-single-uploadable-txt-file" class="section level3">
-<h3>Use this package to convert those dataframes into a single uploadable txt file</h3>
-<p><em>The file format is shown below, but the package will actually save this as a txt file at the location of your choice.</em></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">produce_other_report</span>(partA, partB, partC, <span class="dt">survey =</span> <span class="st">&quot;Admissions&quot;</span>)</span></code></pre></div>
+<h3>Use this package to convert those dataframes into a single
+uploadable txt file</h3>
+<p><em>The file format is shown below, but the package will actually
+save this as a txt file at the location of your choice.</em></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">produce_other_report</span>(partA, partB, partC, <span class="at">survey =</span> <span class="st">&quot;Admissions&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>

@@ -14,19 +14,16 @@
 
 <title>Set up your data for IPEDS Graduation Rates 200 processing</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
@@ -462,17 +459,20 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Set up your data for IPEDS Graduation Rates 200 processing</h1>
+<h1 class="title toc-ignore">Set up your data for IPEDS Graduation Rates
+200 processing</h1>
 
 
 
 <div id="to-use-the-produce_gr200_report-function-your-student-graduation-data-must-be-in-the-format-described-below" class="section level2">
-<h2>To use the <code>produce_gr200_report</code> function, your student graduation data must be in the format described below</h2>
+<h2>To use the <code>produce_gr200_report</code> function, your student
+graduation data must be in the format described below</h2>
 <blockquote>
 <ul>
 <li>One row per person</li>
 <li>One IPEDS Unitid per file</li>
-<li>Columns with values and types as described below (additional columns are allowed)</li>
+<li>Columns with values and types as described below (additional columns
+are allowed)</li>
 </ul>
 </blockquote>
 <p>Note: Column names can use any capitalization method you like</p>
