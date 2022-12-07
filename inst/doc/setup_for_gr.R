@@ -11,6 +11,12 @@ knitr::opts_chunk$set(
 #  specs_GR <-  googlesheets4::read_sheet('1HR0W3N5AgsdwppvTr7CZ4Q2IQtfnTfXMJsSP8l-JtLQ')
 #  usethis::use_data(specs_GR, overwrite = TRUE)
 
+## ----create_data_file_in_package, eval=FALSE, echo=FALSE----------------------
+#  #export spreadsheet with specs from google drive
+#  #read in with readr
+#  specs_GR <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1HR0W3N5AgsdwppvTr7CZ4Q2IQtfnTfXMJsSP8l-JtLQ/edit#gid=0", sheet = 1)
+#  usethis::use_data(specs_GR, overwrite = TRUE)
+
 ## ----specstable, echo=FALSE, warning=FALSE, message=FALSE---------------------
 #figure out why striped isn't working when format = 'html'
 load("../data/specs_GR.rda")

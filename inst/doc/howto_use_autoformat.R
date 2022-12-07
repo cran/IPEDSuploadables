@@ -41,7 +41,11 @@ partA <- data.frame(UNITID = 999999,
                     ADMCON6 = 3, #Portfolio
                     ADMCON7 = 5, #SAT/ACT  #1 or 5 = have to do part C
                     ADMCON8 = 2, #TOEFL
-                    ADMCON9 = 3) #other test
+                    ADMCON9 = 3, #other test
+                    ADMCON10 = 2, #work exp
+                    ADMCON11 = 1, #personal statement
+                    ADMCON12 = 3 #legacy
+                    )
 
 ## ----printA, echo=FALSE-------------------------------------------------------
 knitr::kable(partA, 
@@ -63,7 +67,12 @@ partB <- data.frame(UNITID = 999999,
                     ENRLFTT = nrow(adm_dat[adm_dat$Enroll == 1 & adm_dat$FtPt == 'FT', ]),
                     ENRLPTM = nrow(adm_dat[adm_dat$Sex == 'M' & adm_dat$Enroll == 1 & adm_dat$FtPt == 'PT', ]),
                     ENRLPTW = nrow(adm_dat[adm_dat$Sex == 'F' & adm_dat$Enroll == 1 & adm_dat$FtPt == 'PT', ]),
-                    ENRLPTT = nrow(adm_dat[adm_dat$Enroll == 1 & adm_dat$FtPt == 'PT', ])
+                    ENRLPTT = nrow(adm_dat[adm_dat$Enroll == 1 & adm_dat$FtPt == 'PT', ]),
+                    ADMGU01 = 2, #can you report "another gender"?
+                    APPLCNAG = -2,
+                    ADMSSNAG = -2,
+                    ENRLFTAG = -2,
+                    ENRLPTAG = -2
                     )
 
 ## ----printB, echo=FALSE-------------------------------------------------------
