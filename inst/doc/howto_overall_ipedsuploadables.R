@@ -24,11 +24,11 @@ library(IPEDSuploadables)
 
 ## ----dummy_data, eval = TRUE--------------------------------------------------
 #dataframe of student information for 12 month enrollment
-head(e1d_student)
+head(e1d_students)
 
 ## ----produce_report, eval=FALSE-----------------------------------------------
 #  #full export using sample data
-#  produce_e1d_report(df = e1d_student, hrs = e1d_instr, part = "ALL")
+#  produce_e1d_report(df = e1d_students, hrs = e1d_instr, part = "ALL")
 
 ## ----gender_example, eval = FALSE---------------------------------------------
 #  #able to report undergraduate "another gender" but NOT able to report graduate "another gender"
@@ -44,5 +44,5 @@ head(e1d_student)
 
 ## ----branch, eval=FALSE-------------------------------------------------------
 #  #install, picking an acceptable year range
-#  remotes::install_github(repo = "AlisonLanski/IPEDSuploadables", ref = "reporting_year_2020-2021")
+#  devtools::install_github(repo = "AlisonLanski/IPEDSuploadables", ref = "reporting_year_2022-2023")
 

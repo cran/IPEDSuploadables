@@ -378,8 +378,10 @@ file, contact IPEDS for advice.</em></p>
 </div>
 <div id="data-prep-example-admissions" class="section level2">
 <h2>Data prep example: Admissions</h2>
-<p><em>For a school without the ability to report “Another Gender” in
-the 2022-2023 reporting cycle</em></p>
+<p>For a school WITH the ability to report “Another Gender” in the
+2023-2024 reporting cycle<br />
+<em>Read code comments in Part B for changes to make if you cannot
+report “Another Gender”</em></p>
 <p>This provides a start-to-finish example of preparing an admissions
 submission based on sample data. Always check your results after you
 upload your txt file to the IPEDS submission portal.</p>
@@ -395,14 +397,15 @@ upload your txt file to the IPEDS submission portal.</p>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adm_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">StudentId =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">FtPt =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&#39;FT&#39;</span>, <span class="dv">23</span>), <span class="st">&#39;PT&#39;</span>),</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Sex =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>), <span class="dv">12</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Admit =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>)),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Enroll =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>)),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_V =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">760</span>, <span class="dv">800</span>, <span class="dv">800</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_M =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">460</span>, <span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">700</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>)),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT_CMP =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">8</span>), <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">29</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">27</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">25</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">GenderDetail =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>), <span class="dv">11</span>), <span class="st">&quot;U&quot;</span>, <span class="st">&quot;A&quot;</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Admit =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>)),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Enroll =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>)),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_V =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">760</span>, <span class="dv">800</span>, <span class="dv">800</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">SAT_M =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">460</span>, <span class="dv">500</span>, <span class="dv">560</span>, <span class="dv">600</span>, <span class="dv">660</span>, <span class="dv">700</span>, <span class="dv">700</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>)),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ACT_CMP =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">8</span>), <span class="dv">32</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">29</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">27</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">25</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -414,6 +417,9 @@ FtPt
 </th>
 <th style="text-align:left;">
 Sex
+</th>
+<th style="text-align:left;">
+GenderDetail
 </th>
 <th style="text-align:right;">
 Admit
@@ -445,6 +451,9 @@ ACT_CMP
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -481,6 +490,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -509,6 +521,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -545,6 +560,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -573,6 +591,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -609,6 +630,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -637,6 +661,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -673,6 +700,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -701,6 +731,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -737,6 +770,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -765,6 +801,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -801,6 +840,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -829,6 +871,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -865,6 +910,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -893,6 +941,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -929,6 +980,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 1
 </td>
@@ -957,6 +1011,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -993,6 +1050,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 0
 </td>
@@ -1021,6 +1081,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -1057,6 +1120,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 0
 </td>
@@ -1085,6 +1151,9 @@ NA
 </td>
 <td style="text-align:left;">
 FT
+</td>
+<td style="text-align:left;">
+M
 </td>
 <td style="text-align:left;">
 M
@@ -1121,6 +1190,9 @@ FT
 <td style="text-align:left;">
 F
 </td>
+<td style="text-align:left;">
+F
+</td>
 <td style="text-align:right;">
 0
 </td>
@@ -1153,6 +1225,9 @@ FT
 <td style="text-align:left;">
 M
 </td>
+<td style="text-align:left;">
+U
+</td>
 <td style="text-align:right;">
 0
 </td>
@@ -1184,6 +1259,9 @@ PT
 </td>
 <td style="text-align:left;">
 F
+</td>
+<td style="text-align:left;">
+A
 </td>
 <td style="text-align:right;">
 0
@@ -1336,24 +1414,57 @@ A
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>partB <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">UNITID =</span> <span class="dv">999999</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SURVSECT =</span> <span class="st">&#39;ADM&#39;</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PART =</span> <span class="st">&#39;B&#39;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>, ]),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span>, ]),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;M&#39;</span>, ]),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;F&#39;</span>, ]),</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNT =</span> <span class="fu">nrow</span>(adm_dat),</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMGU01 =</span> <span class="dv">2</span>, <span class="co">#can you report &quot;another gender&quot;?</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNAG =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNAG =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTAG =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTAG =</span> <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                    )</span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>,]),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTM =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;M&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTW =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;F&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTT =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                                             adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ]),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                    <span class="co">#can you report another gender? 1 = yes, 2 = no</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMGU01 =</span> <span class="dv">1</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                    <span class="co">#if you said 1, keep the code below as-is</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                    <span class="co">#if you said 2, remove code, and assign -2 to all 4 columns</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                    <span class="at">APPLCNAG =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;A&#39;</span>, ]),</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ADMSSNAG =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;A&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                                              adm_dat<span class="sc">$</span>Admit <span class="sc">==</span> <span class="dv">1</span>, ]),</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLFTAG =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;A&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                                              adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                                              adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;FT&#39;</span>, ]),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENRLPTAG =</span> <span class="fu">nrow</span>(adm_dat[adm_dat<span class="sc">$</span>GenderDetail <span class="sc">==</span> <span class="st">&#39;A&#39;</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                                              adm_dat<span class="sc">$</span>Enroll <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                                              adm_dat<span class="sc">$</span>FtPt <span class="sc">==</span> <span class="st">&#39;PT&#39;</span>, ])</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#mask data if you ARE able to report &quot;Another Gender&quot;, </span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># but the count is below 5 in any category</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#if you are NOT able to report &quot;Another Gender&quot;, </span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co"># this code will not change your data, even if you run it</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>((partB<span class="sc">$</span>APPLCNAG <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">|</span> partB<span class="sc">$</span>ADMSSNAG <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">|</span> </span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    partB<span class="sc">$</span>ENRLFTAG <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">|</span> partB<span class="sc">$</span>ENRLPTAG <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">&amp;</span> partB<span class="sc">$</span>ADMGU01 <span class="sc">==</span> <span class="dv">1</span>){</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  partB<span class="sc">$</span>ADMGU01 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  partB<span class="sc">$</span>APPLCNAG <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  partB<span class="sc">$</span>ADMSSNAG <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  partB<span class="sc">$</span>ENRLFTAG <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  partB<span class="sc">$</span>ENRLPTAG <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1431,10 +1542,10 @@ ADM
 B
 </td>
 <td style="text-align:right;">
-12
+11
 </td>
 <td style="text-align:right;">
-12
+11
 </td>
 <td style="text-align:right;">
 24
@@ -1467,7 +1578,7 @@ B
 0
 </td>
 <td style="text-align:right;">
-2
+3
 </td>
 <td style="text-align:right;">
 -2
@@ -1509,7 +1620,27 @@ B
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTEN25 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTEN75 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT25 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT75 =</span> <span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT75 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATVR50 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_V[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_V)], .<span class="dv">5</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">SATMT50 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>SAT_M[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>SAT_M)], .<span class="dv">5</span>),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTCM50 =</span> <span class="fu">quantile</span>(adm_enr<span class="sc">$</span>ACT_CMP[<span class="sc">!</span><span class="fu">is.na</span>(adm_enr<span class="sc">$</span>ACT_CMP)], .<span class="dv">5</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTEN50 =</span> <span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTMT50 =</span> <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#mask data for an exam if you have fewer than 5 students counted for it</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(partC<span class="sc">$</span>SATINUM <span class="sc">&lt;</span> <span class="dv">5</span>){</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  partC <span class="ot">&lt;-</span> partC <span class="sc">%&gt;%</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="st">&quot;SATVR25&quot;</span>, <span class="st">&quot;SATVR75&quot;</span>, <span class="st">&quot;SATVR50&quot;</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;SATMT25&quot;</span>, <span class="st">&quot;SATMT75&quot;</span>, <span class="st">&quot;SATMT50&quot;</span>), </span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">function</span>(x) <span class="sc">-</span><span class="dv">2</span>))</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(partC<span class="sc">$</span>ACTNUM <span class="sc">&lt;</span> <span class="dv">5</span>){</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  partC <span class="ot">&lt;-</span> partC <span class="sc">%&gt;%</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="st">&quot;ACTCM25&quot;</span>, <span class="st">&quot;ACTCM75&quot;</span>, <span class="st">&quot;ACTCM50&quot;</span>, </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;ACTMT25&quot;</span>, <span class="st">&quot;ACTMT75&quot;</span>, <span class="st">&quot;ACTMT50&quot;</span>, </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;ACTEN25&quot;</span>, <span class="st">&quot;ACTEN75&quot;</span>, <span class="st">&quot;ACTEN50&quot;</span>), </span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">function</span>(x) <span class="sc">-</span><span class="dv">2</span>))</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1564,6 +1695,21 @@ ACTMT25
 <th style="text-align:right;">
 ACTMT75
 </th>
+<th style="text-align:right;">
+SATVR50
+</th>
+<th style="text-align:right;">
+SATMT50
+</th>
+<th style="text-align:right;">
+ACTCM50
+</th>
+<th style="text-align:right;">
+ACTEN50
+</th>
+<th style="text-align:right;">
+ACTMT50
+</th>
 </tr>
 </thead>
 <tbody>
@@ -1602,13 +1748,28 @@ C
 670
 </td>
 <td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-32
+-2
 </td>
 <td style="text-align:right;">
 -2
+</td>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+680
+</td>
+<td style="text-align:right;">
+580
 </td>
 <td style="text-align:right;">
 -2
@@ -1644,12 +1805,12 @@ UNITID=999999,SURVSECT=ADM,PART=A,ADMCON1=2,ADMCON2=1,ADMCON3=1,ADMCON4=2,ADMCON
 </tr>
 <tr>
 <td style="text-align:left;">
-UNITID=999999,SURVSECT=ADM,PART=B,APPLCNM=12,APPLCNW=12,APPLCNT=24,ADMSSNM=8,ADMSSNW=8,ADMSSNT=16,ENRLFTM=6,ENRLFTW=6,ENRLFTT=12,ENRLPTM=0,ENRLPTW=0,ENRLPTT=0,ADMGU01=2,APPLCNAG=-2,ADMSSNAG=-2,ENRLFTAG=-2,ENRLPTAG=-2
+UNITID=999999,SURVSECT=ADM,PART=B,APPLCNM=11,APPLCNW=11,APPLCNT=24,ADMSSNM=8,ADMSSNW=8,ADMSSNT=16,ENRLFTM=6,ENRLFTW=6,ENRLFTT=12,ENRLPTM=0,ENRLPTW=0,ENRLPTT=0,ADMGU01=3,APPLCNAG=-2,ADMSSNAG=-2,ENRLFTAG=-2,ENRLPTAG=-2
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-UNITID=999999,SURVSECT=ADM,PART=C,SATINUM=8,SATIPCT=67,ACTNUM=4,ACTPCT=33,SATVR25=590,SATVR75=770,SATMT25=490,SATMT75=670,ACTCM25=31,ACTCM75=32,ACTEN25=-2,ACTEN75=-2,ACTMT25=-2,ACTMT75=-2
+UNITID=999999,SURVSECT=ADM,PART=C,SATINUM=8,SATIPCT=67,ACTNUM=4,ACTPCT=33,SATVR25=590,SATVR75=770,SATMT25=490,SATMT75=670,ACTCM25=-2,ACTCM75=-2,ACTEN25=-2,ACTEN75=-2,ACTMT25=-2,ACTMT75=-2,SATVR50=680,SATMT50=580,ACTCM50=-2,ACTEN50=-2,ACTMT50=-2
 </td>
 </tr>
 </tbody>
