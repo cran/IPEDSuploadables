@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -7,8 +7,13 @@ knitr::opts_chunk$set(
 ## ----setup, eval=FALSE, echo=FALSE--------------------------------------------
 #  library(IPEDSuploadables)
 
-## ----spectsimport, eval = FALSE, echo = FALSE---------------------------------
-#  specs_GR <-  googlesheets4::read_sheet('1HR0W3N5AgsdwppvTr7CZ4Q2IQtfnTfXMJsSP8l-JtLQ')
+## ----specsimport, eval = FALSE, echo = FALSE----------------------------------
+#  #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
+#  
+#  tryCatch(specs_GR <-  googlesheets4::read_sheet('1HR0W3N5AgsdwppvTr7CZ4Q2IQtfnTfXMJsSP8l-JtLQ'),
+#          error = function(x) message("Google Sheet unavailable"),
+#          warning = function(y) message("There was a warning"))
+#  
 #  usethis::use_data(specs_GR, overwrite = TRUE)
 
 ## ----create_data_file_in_package, eval=FALSE, echo=FALSE----------------------

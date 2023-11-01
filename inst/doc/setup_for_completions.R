@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -8,9 +8,12 @@ knitr::opts_chunk$set(
 #  library(IPEDSuploadables)
 
 ## ----create_data_file_in_package, eval=FALSE, echo=FALSE----------------------
-#  #export spreadsheet with specs from google drive
-#  #read in with readr
-#  specs_COM <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/132EKp46TpEHPlVrG9FZxINxmVVz8UO0Ov989sP4lNaM/edit", sheet = 1)
+#  #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
+#  
+#  tryCatch(specs_COM <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/132EKp46TpEHPlVrG9FZxINxmVVz8UO0Ov989sP4lNaP/edit", sheet = 1),
+#          error = function(x) message("Google Sheet unavailable"),
+#          warning = function(y) message("There was a warning"))
+#  
 #  usethis::use_data(specs_COM, overwrite = TRUE)
 
 ## ----specstable_df, echo=FALSE, warning=FALSE, message=FALSE------------------
@@ -33,7 +36,8 @@ specs_COM_extracips <- specs_COM[specs_COM$DATA_FRAME == 'extracips', 2:4]
 knitr::kable(specs_COM_extracips,
              format = 'html',
              escape = FALSE,
-             col.names = c('Column Name', 'Column Type', 'Acceptable Value - Definition')) %>%
+             col.names = c('Column Name', 'Column Type', 'Acceptable Value - Definition'),
+             row.names = FALSE) %>%
     kableExtra::kable_styling(bootstrap_options = "striped") %>%
   kableExtra::column_spec(2, italic = TRUE, width = '8em')
 

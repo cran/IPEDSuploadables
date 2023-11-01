@@ -1,3 +1,10 @@
+# IPEDSUploadables 2.8.7
+* Internal updates to address CRAN notes about web data and startup messages  
+
+# IPEDSUploadables 2.8.6
+* Documenting "Count" as a required column for the Completions extracips dataframe  
+  This is a documentation update only; no changes were made to functions; this version was not pushed to CRAN
+
 # IPEDSUploadables 2.8.5
 * Addressed 2023-2024 reporting cycle updates from IPEDS (see items below)
 * Gender Detail masking implemented when "Another Gender" has fewer than 5 reportable students

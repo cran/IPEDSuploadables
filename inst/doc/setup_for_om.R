@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -8,9 +8,11 @@ knitr::opts_chunk$set(
 #  library(IPEDSuploadables)
 
 ## ----dataprep, echo=FALSE, eval=FALSE, message=FALSE--------------------------
-#  #export spreadsheet with specs from google drive
-#  #read in with readr
-#  specs_OM <- googlesheets4::read_sheet('1e1o9Omor7jWwxKRncgzvFbz67sUxKqSkPtSW_B-8jr0')
+#  #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
+#  
+#  tryCatch(specs_OM <- googlesheets4::read_sheet('1e1o9Omor7jWwxKRncgzvFbz67sUxKqSkPtSW_B-8jr0'),
+#          error = function(x) message("Google Sheet unavailable"),
+#          warning = function(y) message("There was a warning"))
 #  #then run
 #  use_data(specs_OM, overwrite = TRUE) #to save as .rda and replace the old file
 #  
