@@ -1,3 +1,12 @@
+# IPEDSuploadables 2.10.0
+* Updating incorrect column name in Outcome Measures vignette
+* Added quality check for correct column name in OM data prep script
+  
+# IPEDSuploadables 2.9.1
+* Changing data load method in vignettes to avoid error on old Mac OS checks
+* Making function documentation a bit more uniform
+* Adding some badges for fun
+
 # IPEDSUploadables 2.9.0
 * Addressed 2024-2025 reporting cycle updates from IPEDS (see items below)
 * Graduation rates removed Gender Detail; info longer required in starting data (functions deprecated)

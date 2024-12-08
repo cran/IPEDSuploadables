@@ -10,6 +10,7 @@ status](https://www.r-pkg.org/badges/version/IPEDSuploadables)](https://CRAN.R-p
 [![R-CMD-check](https://github.com/AlisonLanski/IPEDSuploadables/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlisonLanski/IPEDSuploadables/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/AlisonLanski/IPEDSuploadables/graph/badge.svg)](https://app.codecov.io/gh/AlisonLanski/IPEDSuploadables)
+[![Downloads](https://cranlogs.r-pkg.org/badges/IPEDSuploadables)](https://CRAN.R-project.org/package=IPEDSuploadables)
 <!-- badges: end -->
 
 IPEDSuploadables produces text files in key-value format which meet the
@@ -19,6 +20,17 @@ web forms across multiple screen. Package documentation (see the
 [website](https://alisonlanski.github.io/IPEDSuploadables/)) describes
 how an institution’s data must be formatted to make use of these
 scripts.
+
+### The package is currently serving the 2024-2025 IPEDS reporting cycle
+
+## If you are new to this process or are looking for updates
+
+- Learn the package basics with the article [How to use this package to
+  support your IPEDS
+  reporting](https://alisonlanski.github.io/IPEDSuploadables/articles/howto_overall_ipedsuploadables.html)
+- Check the package [news
+  page](https://alisonlanski.github.io/IPEDSuploadables/news/index.html)
+  for recent updates in this release
 
 ## Report Coverage
 
@@ -52,13 +64,12 @@ institution-types for existing reports*
 - Student Financial Aid: Visit [How to produce other key-value
   uploads](https://alisonlanski.github.io/IPEDSuploadables/articles/howto_use_autoformat.html)
 
-## Website
+## Websites
 
-View the pkgdown version of this site and documentation at
-<https://alisonlanski.github.io/IPEDSuploadables/>
-
-View the codebase and submit issues for this package at
-<https://github.com/AlisonLanski/IPEDSuploadables/>
+For code, issues, etc, visit [the github
+site](https://github.com/AlisonLanski/IPEDSuploadables/).  
+To see full documentation, visit [the package
+website](https://alisonlanski.github.io/IPEDSuploadables/).
 
 ## Installation
 

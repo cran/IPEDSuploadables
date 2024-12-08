@@ -4,12 +4,10 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----setup, eval=FALSE, echo=FALSE--------------------------------------------
-#  library(IPEDSuploadables)
+## ----setup, include=FALSE-----------------------------------------------------
+library(IPEDSuploadables)
 
 ## ----specstable, echo=FALSE, warning=FALSE, message=FALSE---------------------
-#figure out why striped isn't working when format = 'html'
-load("../data/specs_HR.rda")
 library(magrittr)
 specs_HR$ACCEPTABLE_VALUES <- stringr::str_replace_all(specs_HR$ACCEPTABLE_VALUES, pattern = "\\n", replacement = "<br>")
 knitr::kable(specs_HR, 

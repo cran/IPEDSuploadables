@@ -4,8 +4,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----setup, eval=FALSE, echo=FALSE--------------------------------------------
-#  library(IPEDSuploadables)
+## ----setup, include=FALSE-----------------------------------------------------
+library(IPEDSuploadables)
 
 ## ----create_data_file_in_package, eval=FALSE, echo=FALSE----------------------
 #  #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 #  usethis::use_data(specs_E1D, overwrite = TRUE)
 
 ## ----specstable_df, echo=FALSE, warning=FALSE, message=FALSE------------------
-#figure out why striped isn't working when format = 'html'
-load("../data/specs_E1D.rda")
 library(magrittr)
 specs_E1D$ACCEPTABLE_VALUES <- stringr::str_replace_all(specs_E1D$ACCEPTABLE_VALUES, pattern = "\\n", replacement = "<br>")
 specs_E1D_startingdf <- specs_E1D[specs_E1D$DATA_FRAME == 'startingdf', 2:4]
