@@ -31,8 +31,11 @@ head(e1d_students)
 #  produce_e1d_report(df = e1d_students, hrs = e1d_instr, part = "ALL")
 
 ## ----gender_example, eval = FALSE---------------------------------------------
-#  #able to report undergraduate "another gender" but NOT able to report graduate "another gender"
+#  #this will run, but is more code than you need now
 #  produce_com_report(df = com_students, extracips = com_cips, ggender = FALSE)
+#  
+#  #this code is enough
+#  produce_com_report(df = com_students, extracips = com_cips)
 
 ## ----produce_subreport, eval = FALSE------------------------------------------
 #  #if you only want to look at 12 month enrollment part B
