@@ -6,17 +6,17 @@ knitr::opts_chunk$set(
 
 
 ## ----setup, eval=FALSE--------------------------------------------------------
-#  #official install from CRAN
-#  install.packages("IPEDSuploadables")
-#  
-#  #development install from the github repo
-#  #use this if you want to pull in changes before they reach cran or need to use other code branches
-#  
-#  #development install option 1
-#  remotes::install_github("AlisonLanski/IPEDSuploadables")
-#  
-#  #development install option 2
-#  devtools::install_github("AlisonLanski/IPEDSuploadables")
+# #official install from CRAN
+# install.packages("IPEDSuploadables")
+# 
+# #development install from the github repo
+# #use this if you want to pull in changes before they reach cran or need to use other code branches
+# 
+# #development install option 1
+# remotes::install_github("AlisonLanski/IPEDSuploadables")
+# 
+# #development install option 2
+# devtools::install_github("AlisonLanski/IPEDSuploadables")
 
 ## ----load, eval = TRUE--------------------------------------------------------
 #load the packages
@@ -27,25 +27,25 @@ library(IPEDSuploadables)
 head(e1d_students)
 
 ## ----produce_report, eval=FALSE-----------------------------------------------
-#  #full export using sample data
-#  produce_e1d_report(df = e1d_students, hrs = e1d_instr, part = "ALL")
+# #full export using sample data
+# produce_e1d_report(df = e1d_students, hrs = e1d_instr, part = "ALL")
 
 ## ----gender_example, eval = FALSE---------------------------------------------
-#  #this will run, but is more code than you need now
-#  produce_com_report(df = com_students, extracips = com_cips, ggender = FALSE)
-#  
-#  #this code is enough
-#  produce_com_report(df = com_students, extracips = com_cips)
+# #this will run, but is more code than you need now
+# produce_com_report(df = com_students, extracips = com_cips, ggender = FALSE)
+# 
+# #this code is enough
+# produce_com_report(df = com_students, extracips = com_cips)
 
 ## ----produce_subreport, eval = FALSE------------------------------------------
-#  #if you only want to look at 12 month enrollment part B
-#  produce_e1d_report(e1d_instr, part = "B")
+# #if you only want to look at 12 month enrollment part B
+# produce_e1d_report(e1d_instr, part = "B")
 
 ## ----produce_prettyfile, eval = FALSE-----------------------------------------
-#  #text files make my eyes bleed! let's use a csv
-#  produce_e1d_report(hrs = e1d_instr, part = "B", format = "readable")
+# #text files make my eyes bleed! let's use a csv
+# produce_e1d_report(hrs = e1d_instr, part = "B", format = "readable")
 
 ## ----branch, eval=FALSE-------------------------------------------------------
-#  #install, picking an acceptable year range
-#  devtools::install_github(repo = "AlisonLanski/IPEDSuploadables", ref = "reporting_year_2022-2023")
+# #install, picking an acceptable year range
+# devtools::install_github(repo = "AlisonLanski/IPEDSuploadables", ref = "reporting_year_2022-2023")
 

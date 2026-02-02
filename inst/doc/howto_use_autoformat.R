@@ -164,7 +164,7 @@ knitr::kable(partC,
             row.names = FALSE)
 
 ## ----producefinal, echo=TRUE, eval=FALSE, message=FALSE-----------------------
-#  produce_other_report(partA, partB, partC, survey = "Admissions")
+# produce_other_report(partA, partB, partC, survey = "Admissions")
 
 ## ----showfinal, echo=FALSE, eval=TRUE, message=FALSE--------------------------
 rbind(IPEDSuploadables:::apply_upload_format(partA),

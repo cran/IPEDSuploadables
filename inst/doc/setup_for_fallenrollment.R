@@ -8,12 +8,12 @@ knitr::opts_chunk$set(
 library(IPEDSuploadables)
 
 ## ----create_data_file_in_package, eval=FALSE, echo=FALSE----------------------
-#  #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
-#  
-#  tryCatch(specs_EF1 <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1XVcGKtrAwsgKRYvqrbzO13-w8_u3IB2oYft-F5Psxx4/edit", sheet = 1),
-#           error = function(x) message("Google Sheet unavailable"),
-#           warning = function(y) message("There was a warning"))
-#  usethis::use_data(specs_EF1, overwrite = TRUE)
+# #this chunk is only used during interactive session by the package maintainers, if the requirements have been updated
+# 
+# tryCatch(specs_EF1 <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1XVcGKtrAwsgKRYvqrbzO13-w8_u3IB2oYft-F5Psxx4/edit", sheet = 1),
+#          error = function(x) message("Google Sheet unavailable"),
+#          warning = function(y) message("There was a warning"))
+# usethis::use_data(specs_EF1, overwrite = TRUE)
 
 ## ----specstable_df, echo=FALSE, warning=FALSE, message=FALSE------------------
 library(magrittr)
